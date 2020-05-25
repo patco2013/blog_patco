@@ -5,14 +5,30 @@
         <article>
             <h2>{{ article.title }}</h2>
             <div class="metadata">
-                Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie marketing
+                Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie 
+                {{ article.category.title }}
             </div>
             <div class="content">
                 <img src="http//placehold.it/350x150" alt="">
                 {{ article.content | raw }}
             </div>
         </article>
-    
+            
+        {% for comment in article.comments %}
+            <section id="commentaire">
+                <div class="comments">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ comment.author }} (<small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
+                        </div>
+                        <div class="col">
+                            {{ comment.content | raw }}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endfor %}
+
         <button type="submit" class="btn btn-primary"><a class="nav-link" href="{{ path('blog_create',{'id': article.id} ) }}">Modifier l'article</a>
 
 {% endblock %}
