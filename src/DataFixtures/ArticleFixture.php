@@ -50,14 +50,14 @@ class ArticleFixture extends Fixture
                     $content = '<p>' . join($faker->paragraphs(2), '<p></p>') .'</p>';
 
                     $now = new \DateTime();
-                    $interval = $now->diff($article->getCreatedAt());
+                    $interval = $now->diff($article->getCreatedAt());//The difference between now and the article creation date / La différence entre maintenant et la date de création de l'article
                     $days = $interval->days;
                     $minimum = '- ' . $days . ' days';// - 100 days
 
                     $comment->setAuthor($faker->name())
                             ->setContent($content)
                             ->setCreatedAt($faker->dateTimeBetween($minimum))
-                            ->setArticle($article);//Ce commentaire appartient à tel article
+                            ->setArticle($article);//This comment belongs to such article / Ce commentaire appartient à tel article
 
                     $manager->persist($comment);
                 }
