@@ -13,22 +13,42 @@
                 {{ article.content | raw }}
             </div>
         </article>
-            
-        {% for comment in article.comments %}
-            <section id="commentaire">
-                <div class="comments">
-                    <div class="row">
-                        <div class="col-3">
-                            {{ comment.author }} (<small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
-                        </div>
-                        <div class="col">
-                            {{ comment.content | raw }}
+
+     
+
+        <section id="commentaire">
+
+            <h1>{{ article.comments | length }} commentaires :</h1>    
+            {% for comment in article.comments %}
+                    <div class="comments">
+                        <div class="row">
+                            <div class="col-3">
+                                {{ comment.author }} (<small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
+                            </div>
+                            <div class="col">
+                                {{ comment.content | raw }}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        {% endfor %}
+            {% endfor %}
 
-        <button type="submit" class="btn btn-primary"><a class="nav-link" href="{{ path('blog_create',{'id': article.id} ) }}">Modifier l'article</a>
+            <br/>
+            <br/>
+
+            {% if app.user %}
+            {{ form_start(commentForm) }}
+            {{ form_row(commentForm.author, {'attr': {'placeholder': "Votre nom"}}) }}
+            {{ form_row(commentForm.content, {'attr': {'placeholder': "Votre commentaire"}}) }}
+            <button type="submit" class="btn btn-success">Commenter</button>
+            {{ form_end(commentForm) }}
+
+            {% else %}
+            <h2>Vous ne pouvez pas laisser un commentaire si vous n'êtes pas connectés</h2>
+            <a href="{{ path('security_login') }}" class="btn btn-primary">Connexion</a>
+            {% endif %}
+
+        </section>  
+
+        <br/>
 
 {% endblock %}

@@ -15,7 +15,7 @@ class SecurityController extends AbstractController
   /**
    * @Route("/inscription", name="security_registration")
    */
-  public function Registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+  public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
   {
       $user = new User();
 
@@ -31,10 +31,29 @@ class SecurityController extends AbstractController
 
         $manager->persist($user);
         $manager->flush();
+
+        return $this->redirectToRoute('security_login');
       }
 
       return $this->render('security/registration.html.twig', [
         'formRegistration' => $form->createView()
       ]);
   }
+
+  /**
+   * @Route("/connexion", name="security_login")
+   */
+  public function login()
+  {
+    return $this->render('security/login.html.twig');
+  }
+
+  /**
+   * @Route("/deconnexion", name="security_logout")
+   */
+  public function logout()
+  {
+    
+  }
+
 }
